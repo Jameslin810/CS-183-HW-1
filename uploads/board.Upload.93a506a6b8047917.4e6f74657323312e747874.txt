@@ -1,0 +1,47 @@
+-- access variables from the controller use {{}} 
+
+
+#views
+-- delete everything and keep the extend
+
+<p> This is a paragraph </p>
+<p> My message was: {{=message}} --message is called from controller </p>
+
+<p> Please Follow <a href=....(url link)> this link </a></p>
+
+<p> Please follow also {{=A()}} </p>
+
+-- lecture number 3 give or take 1:05:00 
+
+#views number 2
+-- create second.html
+
+<p>  The message from the first page was: {{=message}} </p>
+
+<p> You visited this page {{=counter}} times. </p> 
+
+#controllers
+
+def index();
+	session.welcome_msg = "Hi"
+	return dict(message = T('Hello World'))
+	
+def second():
+	message = session.welcome_msg
+	c = session.counter or 0 
+	c += 1
+	sesson.counter = c
+	
+#models
+-- file is called tables.py
+from datetime import datetime --python library for dates and times
+
+define_table(
+	field('author'), -default is string default 512 chars at most
+	field('creation_date', 'datetime', default = datetime.utcnow()), -- don't do localtime
+	field('message', 'text'), 
+	)
+
+db	
+	return dict(message = message, counter = c)
+	

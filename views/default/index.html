@@ -1,0 +1,13 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+<p>This is what we have so far...    
+</p>
+
+<ul>
+    {{for r in rows:}}
+    {{=LI(A('View', _class='btn', _href=URL('default', 'view', args=[r.urlLink])))}}
+{{pass}}
+</ul>
+
+<p> Please Follow <a href={{=URL('default', 'second')}}> this link </a></p>
+<p> Please Follow <a href={{=URL('default', 'add')}}> click to add files </a></p>

@@ -1,0 +1,18 @@
+# coding: utf8
+import random
+from datetime import datetime
+
+db.define_table('board',
+    Field('name', 'string', requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)),
+	Field('author', 'string', requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)),
+	Field('creating_datetime', 'datetime', default=datetime.utcnow()),
+	Field('contenteoo', 'text', requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)),
+    Field('Upload', 'upload'),
+    Field('urlLink', 'integer', default=random.getrandbits(60))
+	)
+
+db.board.creating_datetime.writable = False
+db.board.urlLink.writable = False
+db.board.creating_datetime.readable=False
+#db.board.urlLink.readable=False
+  ## return dict(contenteoo = contenteoo, counter = c)

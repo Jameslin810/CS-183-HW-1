@@ -1,0 +1,103 @@
+-- 10/14/2013 cs 183	
+
+
+r = random.getbits(60)
+u = URL('default', 'view' args = [r])
+http;-----------------/default/view/6724....
+
+# in model
+
+db.define_table('my_table', 
+	field('name'),
+	field('secret_number', 'integer'),
+	)
+	
+db.my_table.secret_number.readable = False
+	
+
+	
+# in the controller
+# 1. initialize when created. 
+
+def create():
+	rec = my_table(request.args(0)) or redirect(URL('default', 'index') )
+	form = SQLFORM(db.mytable, record = rec)
+		
+	db.my_table.secret_number.default = random.getbits(60)	
+		
+	if form.process().accepted:
+		redirect(url('default', 'index'))
+		
+		
+
+		return dict(form = form)
+	
+	
+	
+	
+# 2. change the number at each edit.
+def edit():
+	rec = my_table(request.args(0)) or redirect(URL('default', 'index') )
+	form = SQLFORM(db.mytable, record = rec)
+	
+	form.vars.secret_number = random.getbits(60)
+
+	if form.process().accepted:
+		redirect(url('default', 'index'))
+		
+		return dict(form = form)
+	
+# 3. brute force
+def edit():
+	rec = my_table(request.args(0)) or redirect(URL('default', 'index') )
+	form = SQLFORM(db.mytable, record = rec)
+	
+	if form.process().accepted:
+	    # here, the edit has taken place.
+		# increment by one the secret number. just because we like it
+		#3a. 
+		# re-read the record
+		r = db.my_table(rec.id)
+		r.update_record(secret_number = random.getbits(60))
+		redirect(url('default', 'index'))
+		
+		#3b. 
+		db(db.my_table.id == rec.id).update(secret_number = db.mytable.secret_number)
+		
+		
+		redirect(url('default', 'index'))
+		return dict(form = form)
+		
+		
+def view():
+	rec = my_table(request.args(0)) or redirect(URL('default', 'index') )
+	form = SQLFORM(db.mytable, record = rec)
+	return dict(form=form)
+# in the view
+	{{=form}}
+	
+	
+# to put an int ina URL, and a cat as well
+url = url('default', 'view', args = [37, 'Rue']
+http:// www.example.com/my_app/default/view/37/Rue/
+
+url = url('default', 'view', args = [37, 'Rue']
+			vars = dict(ears=2, mouth = 1))
+http://www.example.com/myapp/default/views/37/Rue?ears=2&month=1
+
+
+# to view
+http:/www.example.com/my_app/default/view/37
+http://www.example.com/my_app/default/view/37/&page=32
+
+
+on delete cascade
+on delete set null 
+
+# transactions
+ airline reservation system. like the example in 182 book
+ transaction can end in two ways
+	1. sucession, that does not generate any confliction
+	2. 
+ 
+	
